@@ -4,6 +4,8 @@ A local database-design studio for functional dependencies, candidate keys, and 
 
 ![Relation Fold workbench](docs/workbench.png)
 
+Decomposed relations appear as tables with one attribute per row and the first candidate key underlined. Edit source schema opens the inputs; successful analysis closes the editor and exposes the join and dependency-preservation results.
+
 ## Run
 
 Requires Python 3.10+ to serve the page and a modern browser. Node 22+ is needed only for development checks. There are no installed runtime dependencies or external services.
@@ -25,7 +27,7 @@ Open http://127.0.0.1:8000. The server binds to loopback and exposes only five s
 
 The bundled order-book study decomposes six attributes into four BCNF relations while preserving all declared dependencies. The BCNF-tradeoff study is already in 3NF; its BCNF split loses `Student, Course -> Instructor`. The lossy-split study preserves both declared rules but fails reconstruction. These are deliberately separate properties.
 
-[Example study](docs/example.json) can be opened from the app. Editing inputs does not update the results until **Unfold schema** is pressed. Save/export use the last successful analysis, not unsubmitted edits.
+[Example study](docs/example.json) can be opened from the app. Editing inputs does not update the results until **Analyze schema** is pressed. Save/export use the last successful analysis, not unsubmitted edits.
 
 ## Algorithms and guarantees
 

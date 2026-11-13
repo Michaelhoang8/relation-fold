@@ -59,8 +59,12 @@ function run() {
     }
     result = data.result;
     $("status").textContent =
-      `Checked ${2 ** result.attributes.length} attribute subsets. Results reflect the last unfolded schema.`;
+      `Checked ${2 ** result.attributes.length} attribute subsets. Results reflect the last analyzed schema.`;
     render();
+    const editor = $("schema-editor");
+    if (editor.contains(document.activeElement))
+      editor.querySelector("summary").focus();
+    editor.open = false;
   };
   worker.onerror = () => {
     $("analyze").disabled = false;
@@ -166,7 +170,6 @@ function renderDesign() {
       const p = el("p");
       result.attributes.forEach((name, j) => {
         if (c.relation & (1 << j)) {
-          if (p.childNodes.length) p.append(document.createTextNode(" · "));
           p.append(el("span", name, c.keys[0] & (1 << j) ? "under" : ""));
         }
       });

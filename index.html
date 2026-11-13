@@ -9,30 +9,21 @@
   </head>
   <body>
     <header>
-      <a href="/" class="brand"
-        ><span aria-hidden="true">◩</span> relation fold</a
-      ><span class="eyebrow">A small studio for database structure</span
-      ><button id="open">Open study</button
+      <h1>Relation Fold</h1>
+      <button id="open">Open study</button
       ><input id="file" type="file" accept=".json,application/json" hidden />
     </header>
     <main>
-      <section class="intro">
-        <p class="eyebrow">Database theory, made inspectable.</p>
-        <h1>Give every fact<br /><em>a place to belong.</em></h1>
-        <p>
-          Unfold the dependencies in a schema. Find its keys, explore a cleaner
-          design, and see what survives the split.
-        </p>
-      </section>
+      <p id="status" role="status" aria-live="polite"></p>
       <div class="workspace">
-        <aside>
+        <details id="schema-editor">
+          <summary>Edit source schema</summary>
           <form id="form">
             <div class="section-heading">
-              <h2>The starting relation</h2>
-              <span>01</span>
+              <h2>Source relation</h2>
             </div>
             <label
-              >Study<select id="study">
+              >Example<select id="study">
                 <option value="orders">Order book</option>
                 <option value="tradeoff">The BCNF tradeoff</option>
                 <option value="lossy">A lossy split</option>
@@ -73,19 +64,15 @@
                 attribute across the relations.
               </p>
             </details>
-            <button class="primary" id="analyze">Unfold schema ↗</button>
+            <button class="primary" id="analyze">Analyze schema</button>
           </form>
-          <p id="status" role="status" aria-live="polite"></p>
+
           <p class="hint">
             Analysis uses the declared rules, not a sample of rows. Changes take
-            effect when you unfold the schema.
+            effect when you analyze the schema.
           </p>
-        </aside>
+        </details>
         <section id="result" hidden>
-          <div class="section-heading">
-            <h2>The shape of your data</h2>
-            <span>02</span>
-          </div>
           <div class="overview">
             <div>
               <p class="eyebrow">Original normal form</p>
@@ -102,7 +89,7 @@
             <div id="violations"></div>
           </details>
           <div class="design-head">
-            <h2>Fold it differently.</h2>
+            <h2>Decomposition</h2>
             <label
               >Design<select id="design">
                 <option value="third">3NF synthesis</option>
@@ -115,7 +102,7 @@
           <div id="relations" class="relations"></div>
           <p id="tradeoff" class="hint"></p>
           <details id="chase-details">
-            <summary>Can the pieces reconstruct the original?</summary>
+            <summary>Lossless-join chase</summary>
             <p id="chase-explanation"></p>
             <label
               >Chase step <input id="step" type="range" min="0" value="0"
@@ -130,11 +117,11 @@
             </p>
           </details>
           <details>
-            <summary>Which dependencies survive?</summary>
+            <summary>Dependency preservation</summary>
             <div id="preservation"></div>
           </details>
           <details>
-            <summary>Follow an attribute closure</summary>
+            <summary>Attribute closure</summary>
             <p class="hint">
               Choose known attributes. Follow the rules until no new attributes
               can be inferred.
@@ -165,7 +152,6 @@
           not check multivalued dependencies, workload performance, or business
           rules you have not declared.
         </p>
-        <span>Local computation · No uploads · No dependencies</span>
       </footer>
     </main>
   </body>
