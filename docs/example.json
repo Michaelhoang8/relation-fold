@@ -1,0 +1,5 @@
+{
+  "attributes": "Order, Product, Customer, City, Price, Quantity",
+  "dependencies": "Order -> Customer\nCustomer -> City\nProduct -> Price\nOrder, Product -> Quantity",
+  "decomposition": "Order, Customer\nCustomer, City\nProduct, Price\nOrder, Product, Quantity"
+}

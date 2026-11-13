@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Relation Fold · Database design</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <header>
+      <a href="/" class="brand"
+        ><span aria-hidden="true">◩</span> relation fold</a
+      ><span class="eyebrow">A small studio for database structure</span
+      ><button id="open">Open study</button
+      ><input id="file" type="file" accept=".json,application/json" hidden />
+    </header>
+    <main>
+      <section class="intro">
+        <p class="eyebrow">Database theory, made inspectable.</p>
+        <h1>Give every fact<br /><em>a place to belong.</em></h1>
+        <p>
+          Unfold the dependencies in a schema. Find its keys, explore a cleaner
+          design, and see what survives the split.
+        </p>
+      </section>
+      <div class="workspace">
+        <aside>
+          <form id="form">
+            <div class="section-heading">
+              <h2>The starting relation</h2>
+              <span>01</span>
+            </div>
+            <label
+              >Study<select id="study">
+                <option value="orders">Order book</option>
+                <option value="tradeoff">The BCNF tradeoff</option>
+                <option value="lossy">A lossy split</option>
+                <option value="blank">Start from scratch</option>
+              </select></label
+            ><label
+              >Attributes<input
+                id="attributes"
+                required
+                maxlength="220"
+                spellcheck="false"
+            /></label>
+            <p class="hint">1–8 names, separated by commas.</p>
+            <label
+              >Functional dependencies<textarea
+                id="dependencies"
+                rows="6"
+                maxlength="12000"
+                spellcheck="false"
+              ></textarea>
+            </label>
+            <p class="hint">
+              One rule per line: Order → Customer. Type <code>-&gt;</code> for
+              the arrow; <code>{}</code> for an empty determinant.
+            </p>
+            <details>
+              <summary>Your own decomposition <span>optional</span></summary>
+              <label
+                >Relations<textarea
+                  id="decomposition"
+                  rows="5"
+                  maxlength="12000"
+                  spellcheck="false"
+                ></textarea>
+              </label>
+              <p class="hint">
+                One comma-separated attribute set per line. Include every
+                attribute across the relations.
+              </p>
+            </details>
+            <button class="primary" id="analyze">Unfold schema ↗</button>
+          </form>
+          <p id="status" role="status" aria-live="polite"></p>
+          <p class="hint">
+            Analysis uses the declared rules, not a sample of rows. Changes take
+            effect when you unfold the schema.
+          </p>
+        </aside>
+        <section id="result" hidden>
+          <div class="section-heading">
+            <h2>The shape of your data</h2>
+            <span>02</span>
+          </div>
+          <div class="overview">
+            <div>
+              <p class="eyebrow">Original normal form</p>
+              <strong id="normal"></strong>
+            </div>
+            <div>
+              <p class="eyebrow">Candidate keys</p>
+              <div id="keys"></div>
+            </div>
+          </div>
+          <p id="diagnosis"></p>
+          <details>
+            <summary>Why this normal form?</summary>
+            <div id="violations"></div>
+          </details>
+          <div class="design-head">
+            <h2>Fold it differently.</h2>
+            <label
+              >Design<select id="design">
+                <option value="third">3NF synthesis</option>
+                <option value="bcnf">BCNF decomposition</option>
+                <option value="custom">Your decomposition</option>
+              </select></label
+            >
+          </div>
+          <div id="verdict" class="verdict"></div>
+          <div id="relations" class="relations"></div>
+          <p id="tradeoff" class="hint"></p>
+          <details id="chase-details">
+            <summary>Can the pieces reconstruct the original?</summary>
+            <p id="chase-explanation"></p>
+            <label
+              >Chase step <input id="step" type="range" min="0" value="0"
+            /></label>
+            <p id="step-label" class="hint"></p>
+            <div id="table" class="scroll"></div>
+            <p class="hint">
+              a symbols are shared column values. b symbols are initially
+              distinct. A row of only a symbols proves a lossless join.
+              Otherwise the final table is a counterexample: the all-a tuple
+              appears in the joined projections but is absent here.
+            </p>
+          </details>
+          <details>
+            <summary>Which dependencies survive?</summary>
+            <div id="preservation"></div>
+          </details>
+          <details>
+            <summary>Follow an attribute closure</summary>
+            <p class="hint">
+              Choose known attributes. Follow the rules until no new attributes
+              can be inferred.
+            </p>
+            <fieldset id="closure-input">
+              <legend>Known attributes</legend>
+            </fieldset>
+            <div id="closure-result"></div>
+          </details>
+          <details>
+            <summary>The minimal cover</summary>
+            <div id="cover"></div>
+            <p class="hint">
+              One equivalent, irredundant cover. Covers and valid decompositions
+              are not necessarily unique.
+            </p>
+          </details>
+          <div class="exports">
+            <button id="save">Save study</button
+            ><button id="export">Export evidence</button>
+          </div>
+        </section>
+      </div>
+      <footer>
+        <p>
+          Relational theory assumes atomic values, set semantics, and no SQL
+          NULLs. This tool checks functional dependencies through BCNF; it does
+          not check multivalued dependencies, workload performance, or business
+          rules you have not declared.
+        </p>
+        <span>Local computation · No uploads · No dependencies</span>
+      </footer>
+    </main>
+  </body>
+</html>
